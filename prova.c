@@ -16,32 +16,30 @@ typedef struct {
     char telefone[15];
 } Pessoa;
 
-// --- FUNÇÕES DE ARQUIVOS ---
 
-// Função que salva todos os dados do vetor no arquivo ao sair 
+
+
 void salvarArquivo(Pessoa *dados, int quantidade) {
-    FILE *arquivo = fopen("agenda.dat", "wb"); // Abre em modo binário de escrita
+    FILE *arquivo = fopen("agenda.dat", "wb"); 
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo para salvar!\n");
         return;
     }
     
-    // Salva a quantidade atual primeiro, para sabermos quantos ler depois
+    
     fwrite(&quantidade, sizeof(int), 1, arquivo);
-    // Salva o vetor inteiro de structs
     fwrite(dados, sizeof(Pessoa), quantidade, arquivo);
     
     fclose(arquivo);
     printf("Dados salvos com sucesso!\n");
 }
 
-// Função que carrega os dados do arquivo para o vetor ao iniciar [cite: 6, 7, 10]
+
 Pessoa* carregarArquivo(int *quantidade, int *capacidade) {
-    FILE *arquivo = fopen("agenda.dat", "rb"); // Abre em modo binário de leitura
+    FILE *arquivo = fopen("agenda.dat", "rb"); 
     if (arquivo == NULL) {
-        // Se o arquivo não existe, inicia com os valores padrão
         *quantidade = 0;
-        *capacidade = 4; // Capacidade inicial sugerida [cite: 3]
+        *capacidade = 4; 
         Pessoa *dados = (Pessoa*) malloc((*capacidade) * sizeof(Pessoa));
         return dados;
     }
