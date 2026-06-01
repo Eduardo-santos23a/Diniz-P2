@@ -20,9 +20,9 @@ typedef struct {
 
 
 void salvarArquivo(Pessoa *dados, int quantidade) {
-    FILE *arquivo = fopen("agenda.dat", "wb"); 
+    FILE *arquivo = fopen("cadastro.dat", "wb"); 
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para salvar!\n");
+        printf("Erro ao abrir o arquivo para salvar\n");
         return;
     }
     
@@ -36,7 +36,7 @@ void salvarArquivo(Pessoa *dados, int quantidade) {
 
 
 Pessoa* carregarArquivo(int *quantidade, int *capacidade) {
-    FILE *arquivo = fopen("agenda.dat", "rb"); 
+    FILE *arquivo = fopen("cadastro.dat", "rb"); 
     if (arquivo == NULL) {
         *quantidade = 0;
         *capacidade = 4; 
@@ -68,11 +68,8 @@ Pessoa* inserirPessoa(Pessoa *dados, int *quantidade, int *capacidade) {
     if (*quantidade >= *capacidade) {
         *capacidade *= 2; 
         dados = (Pessoa*) realloc(dados, (*capacidade) * sizeof(Pessoa));
-        if (dados == NULL) {
-            printf("Erro crítico de memória ao expandir o vetor!\n");
-            exit(1);
-        }
-        printf(">> Capacidade do vetor dobrada para: %d <<\n", *capacidade);
+   
+        printf("Vetor cheio, capacidade do vetor dobrada para: %d\n", *capacidade);
     }
 
     int i = *quantidade; 
@@ -111,7 +108,6 @@ void alterarPessoa(Pessoa *dados, int quantidade) {
 
     for(int i = 0; i < quantidade; i++) {
         if(dados[i].ID == id) {
-            achou = 1;
             printf("Digite o novo nome: ");
             fgets(dados[i].nome, 60, stdin);
             dados[i].nome[strcspn(dados[i].nome, "\n")] = 0;
@@ -130,9 +126,11 @@ void alterarPessoa(Pessoa *dados, int quantidade) {
             
             printf("Cadastro alterado com sucesso!\n");
             break;
+        }else{
+           printf("ID %d não encontrado", id);
         }
     }
-    if (!achou) printf("Pessoa com ID %d não encontrada.\n", id);
+    
 }
 
 void excluirPessoa(Pessoa *dados, int *quantidade) {
@@ -143,7 +141,6 @@ void excluirPessoa(Pessoa *dados, int *quantidade) {
 
     for(int i = 0; i < *quantidade; i++) {
         if(dados[i].ID == id) {
-            achou = 1;
             
             for(int j = i; j < (*quantidade) - 1; j++) {
                 dados[j] = dados[j + 1];
@@ -151,9 +148,11 @@ void excluirPessoa(Pessoa *dados, int *quantidade) {
             (*quantidade)--; 
             printf("Pessoa excluída com sucesso!\n");
             break;
+        }else{
+           printf("ID %d não encontrado.\n", id);
         }
     }
-    if (!achou) printf("Pessoa com ID %d não encontrada.\n", id);
+    
 }
 
 void listarPessoas(Pessoa *dados, int quantidade) {
@@ -161,7 +160,7 @@ void listarPessoas(Pessoa *dados, int quantidade) {
         printf("\nNenhuma pessoa cadastrada na agenda.\n");
         return;
     }
-    printf("\n=== LISTA DE PESSOAS (%d cadastros) ===\n", quantidade);
+    printf("\nCADASTROS (%d cadastros)\n", quantidade);
     for(int i = 0; i < quantidade; i++) {
         printf("ID: %d\n", dados[i].ID);
         printf("Nome: %s\n", dados[i].nome);
@@ -180,7 +179,6 @@ void pesquisarPorID(Pessoa *dados, int quantidade) {
 
     for(int i = 0; i < quantidade; i++) {
         if(dados[i].ID == id) {
-            achou = 1;
             printf("\n--- Usuário Encontrado ---\n");
             printf("ID: %d\n", dados[i].ID);
             printf("Nome: %s\n", dados[i].nome);
@@ -189,9 +187,11 @@ void pesquisarPorID(Pessoa *dados, int quantidade) {
             printf("Telefone: %s\n", dados[i].telefone);
             printf("--------------------------\n");
             break;
+        }else{
+           printf("ID %d não encontrado.\n", id);
         }
     }
-    if (!achou) printf("Pessoa com ID %d não encontrada.\n", id);
+    
 }
 
 
@@ -240,7 +240,7 @@ int main() {
                 printf("Saindo do programa...\n");
                 break;
             default:
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opção inválida.\n");
         }
     } while (opcao != 6);
 
