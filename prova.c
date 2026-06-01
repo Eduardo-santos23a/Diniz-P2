@@ -47,9 +47,6 @@ Pessoa* carregarArquivo(int *quantidade, int *capacidade) {
     
     fread(quantidade, sizeof(int), 1, arquivo);
     
-    
-    *capacidade = (*quantidade > 0) ? *quantidade * 2 : 4;
-    
     Pessoa *dados = (Pessoa*) malloc((*capacidade) * sizeof(Pessoa));
     
     
